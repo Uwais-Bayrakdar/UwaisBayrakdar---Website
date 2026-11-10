@@ -114,9 +114,9 @@ export default function BookMockup() {
             />
           </div>
 
-          {/* Spine (Positioned on the Right for Arabic, Left for English/Turkish) */}
+          {/* Spine */}
           <div
-            className={`absolute inset-y-0 border-y border-white/10 shadow-inner overflow-hidden bg-[#e11d48] ${
+            className={`absolute inset-y-0 border-y border-white/10 shadow-inner overflow-hidden bg-[#dc2626] ${
               isRtl ? "right-0" : "left-0"
             }`}
             style={{
@@ -133,7 +133,7 @@ export default function BookMockup() {
             <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-black/40 via-transparent to-black/30" />
           </div>
 
-          {/* Vertical Page Edge (Opposite side of the spine) */}
+          {/* Vertical Page Edge */}
           <div
             className={`absolute inset-y-1 rounded-xs bg-[repeating-linear-gradient(90deg,#e5e5e5_0,#e5e5e5_1px,#d4d4d4_1px,#d4d4d4_2px)] shadow-inner ${
               isRtl ? "left-0" : "right-0"
@@ -176,7 +176,7 @@ export default function BookMockup() {
           onClick={() => setShowBackText(true)}
           className="inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-zinc-900/80 px-3.5 py-1.5 text-xs font-medium text-zinc-300 transition hover:border-zinc-500 hover:text-white"
         >
-          <BookOpen className="h-3.5 w-3.5 text-amber-200/80" />
+          <BookOpen className="h-3.5 w-3.5 text-red-500" />
           {t.mockup.readBackBtn}
         </button>
       </div>
@@ -184,7 +184,7 @@ export default function BookMockup() {
       {/* Modal Dialog for Back Cover Content */}
       {showBackText && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-fade-in">
-          <div className="relative w-full max-w-md rounded-2xl border border-zinc-800 bg-zinc-950 p-6 sm:p-7 shadow-2xl text-start">
+          <div className="relative w-full max-w-md max-h-[90vh] overflow-y-auto rounded-2xl border border-zinc-800 bg-zinc-950 p-6 sm:p-7 shadow-2xl text-start">
             <button
               type="button"
               onClick={() => setShowBackText(false)}
@@ -214,7 +214,7 @@ export default function BookMockup() {
               <ul className="mt-2 space-y-2 text-xs text-zinc-300">
                 {t.mockup.bullets.map((bullet, idx) => (
                   <li key={idx} className="flex gap-2">
-                    <span className="text-red-400 font-bold shrink-0">•</span>
+                    <span className="text-red-500 font-bold shrink-0">•</span>
                     <span>{bullet}</span>
                   </li>
                 ))}
@@ -227,7 +227,7 @@ export default function BookMockup() {
               </p>
             )}
 
-            <div className="mt-5 border-s-2 border-red-500/70 ps-3 py-0.5">
+            <div className="mt-5 border-s-2 border-red-500 ps-3 py-0.5">
               <p className="text-[11px] font-semibold text-zinc-200">{t.mockup.aboutAuthorTitle}</p>
               <p className="text-[11px] text-zinc-400 leading-snug mt-0.5">
                 <span className="font-medium text-zinc-300">{t.site.author}</span> {t.mockup.aboutAuthorBody}

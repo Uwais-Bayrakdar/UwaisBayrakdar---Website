@@ -11,3 +11,45 @@ html {
     scroll-behavior: auto;
   }
 }
+
+/* ==========================================================================
+   Book Spine Custom Scrollbar
+   ========================================================================== */
+
+/* 1. Chromium & WebKit (Chrome, Edge, Safari, Arc, Brave) */
+::-webkit-scrollbar {
+  width: 9px;
+  height: 9px;
+}
+
+::-webkit-scrollbar-track {
+  background: #09090b; /* Tailwind zinc-950 */
+}
+
+::-webkit-scrollbar-thumb {
+  /* Crimson red gradient simulating the cylindrical curve & gloss of the book spine */
+  background: linear-gradient(
+    90deg,
+    #991b1b 0%,   /* red-800 shadow edge */
+    #ef4444 35%,  /* red-500 spine surface */
+    #fca5a5 55%,  /* red-300 light reflection */
+    #b91c1c 100%  /* red-700 back curve */
+  );
+  border-radius: 9999px;
+  border: 2px solid #09090b; /* Creates breathing room and smooth rounded capsule */
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(
+    90deg,
+    #b91c1c 0%,
+    #ef4444 45%,
+    #dc2626 100%
+  );
+}
+
+/* 2. Firefox Standards Support */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #ef4444 #09090b;
+}

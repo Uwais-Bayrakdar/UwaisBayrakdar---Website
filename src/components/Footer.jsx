@@ -17,7 +17,7 @@ export default function Footer() {
               <button
                 type="button"
                 onClick={() => setShowPrivacy(true)}
-                className="underline underline-offset-4 hover:text-zinc-300 focus:ring-1 focus:ring-zinc-400 focus:outline-none transition-colors"
+                className="underline underline-offset-4 hover:text-zinc-300 focus:ring-1 focus:ring-red-500/40 focus:outline-none transition-colors"
               >
                 {t.footer.privacyLink}
               </button>
@@ -32,7 +32,7 @@ export default function Footer() {
                     href={href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="transition-colors hover:text-amber-200/90 focus:ring-1 focus:ring-zinc-400 focus:outline-none"
+                    className="transition-colors hover:text-red-400 focus:ring-1 focus:ring-red-500/40 focus:outline-none"
                   >
                     {label}
                   </a>
@@ -50,7 +50,7 @@ export default function Footer() {
           onClick={() => setShowPrivacy(false)}
         >
           <div
-            className="relative w-full max-w-md rounded-2xl border border-zinc-800 bg-zinc-950 p-6 sm:p-7 shadow-2xl text-start"
+            className="relative w-full max-w-md max-h-[90vh] overflow-y-auto rounded-2xl border border-zinc-800 bg-zinc-950 p-6 sm:p-7 shadow-2xl text-start"
             onClick={(e) => e.stopPropagation()}
           >
             <button

@@ -34,6 +34,7 @@ export const translations = {
     },
     nav: {
       cta: "Get Free Preview",
+      languageLabel: "Language",
     },
     hero: {
       headline: "Stop overcomplicating productivity. Your willpower was never the problem.",
@@ -190,6 +191,7 @@ export const translations = {
     },
     nav: {
       cta: "احصل على النسخة المجانية",
+      languageLabel: "اللغة",
     },
     hero: {
       headline: "توقف عن تعقيد الإنتاجية. قوة إرادتك لم تكن المشكلة.",
@@ -346,6 +348,7 @@ export const translations = {
     },
     nav: {
       cta: "Ücretsiz Önizleme Al",
+      languageLabel: "Dil",
     },
     hero: {
       headline: "Üretkenliği karmaşıklaştırmayı bırak. Sorun hiçbir zaman iraden olmadı.",

@@ -98,7 +98,7 @@ export default function EmailForm() {
             if (status === "error") setStatus("idle");
           }}
           placeholder={t.form.placeholder}
-          className="flex-1 px-4 py-2.5 rounded-xl bg-zinc-900 border border-zinc-800 text-zinc-100 placeholder:text-zinc-500 focus:outline-none focus:border-zinc-500 text-sm"
+          className="flex-1 px-4 py-2.5 rounded-xl bg-zinc-900 border border-zinc-800 text-zinc-100 placeholder:text-zinc-500 focus:outline-none focus:border-red-500/80 focus:ring-1 focus:ring-red-500/40 text-sm transition-colors"
         />
         <button
           type="submit"
@@ -120,7 +120,7 @@ export default function EmailForm() {
       </form>
 
       {status === "error" && (
-        <div className="mt-2.5 flex items-center gap-2 text-rose-400 text-xs">
+        <div className="mt-2.5 flex items-center gap-2 text-red-500 text-xs">
           <AlertCircle className="w-4 h-4 shrink-0" />
           <span>{errorMessage}</span>
         </div>

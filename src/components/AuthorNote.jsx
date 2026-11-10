@@ -6,7 +6,7 @@ export default function AuthorNote() {
   return (
     <section className="border-t border-white/[0.06] px-5 py-20">
       <div className="mx-auto max-w-3xl space-y-8 text-start">
-        <h2 className="text-2xl font-bold tracking-tight text-white sm:text-3xl">
+        <h2 className="text-2xl font-bold tracking-tight text-white sm:text-3xl font-serif">
           {t.author.title}
         </h2>
 
@@ -16,9 +16,11 @@ export default function AuthorNote() {
           ))}
         </div>
 
-        <blockquote className="border-s-2 border-amber-400/80 ps-4 font-mono text-sm italic text-amber-200/90">
-          "{t.author.pullQuote}"
-        </blockquote>
+        <div className="mt-8 rounded-xl border border-white/[0.08] bg-zinc-900/40 p-4 sm:p-5 border-s-4 border-s-red-500 transition-colors hover:border-zinc-700">
+          <p className="font-serif italic text-sm sm:text-base text-zinc-100 leading-relaxed">
+            "{t.author.pullQuote}"
+          </p>
+        </div>
       </div>
     </section>
   );
