@@ -12,42 +12,49 @@ export default function Navbar() {
 
   return (
     <header className="sticky top-0 z-50 border-b border-white/[0.06] bg-zinc-950/80 backdrop-blur-md">
-      <div className="mx-auto flex h-14 max-w-6xl items-center justify-between px-4 sm:px-6">
-        {/* Brand Title */}
-        <a
-          href="#top"
-          onClick={closeMenu}
-          className="font-serif text-base sm:text-lg font-semibold tracking-tight text-zinc-100 hover:text-white transition-colors focus:ring-1 focus:ring-red-500/40 focus:outline-none truncate max-w-[220px]"
-        >
-          {t.site.title}
-        </a>
+      <div className="mx-auto grid h-14 max-w-6xl grid-cols-2 md:grid-cols-3 items-center px-4 sm:px-6">
+        {/* 1. Left: Brand Title */}
+        <div className="flex items-center justify-start">
+          <a
+            href="#top"
+            onClick={closeMenu}
+            className="font-serif text-base sm:text-lg font-semibold tracking-tight text-zinc-100 hover:text-white transition-colors focus:ring-1 focus:ring-red-500/40 focus:outline-none truncate max-w-[200px] sm:max-w-none"
+          >
+            {t.site.title}
+          </a>
+        </div>
 
-        {/* Desktop Navigation */}
-        <div className="hidden md:flex items-center gap-4">
+        {/* 2. Center: Free Preview CTA (Desktop only) */}
+        <div className="hidden md:flex items-center justify-center">
           <a
             href="#preview"
-            className="rounded-lg border border-white/[0.1] px-3.5 py-1.5 text-sm font-medium text-zinc-200 transition-colors hover:border-red-500/40 hover:text-red-400 focus:ring-1 focus:ring-red-500/40 focus:outline-none"
+            className="rounded-lg border border-white/[0.1] px-4 py-1.5 text-sm font-medium text-zinc-200 transition-colors hover:border-red-500/40 hover:text-red-400 focus:ring-1 focus:ring-red-500/40 focus:outline-none"
           >
             {t.nav.cta}
           </a>
-          <LanguageSwitcher />
         </div>
 
-        {/* Mobile Hamburger Toggle Button */}
-        <button
-          type="button"
-          onClick={toggleMenu}
-          aria-label={isOpen ? "Close menu" : "Open menu"}
-          aria-expanded={isOpen}
-          className="flex md:hidden items-center justify-center p-2 rounded-lg text-zinc-300 hover:text-white bg-zinc-900/60 border border-zinc-800 hover:border-zinc-700 transition focus:outline-none"
-        >
-          {isOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-        </button>
+        {/* 3. Right: Desktop Language Switcher / Mobile Hamburger */}
+        <div className="flex items-center justify-end">
+          <div className="hidden md:block">
+            <LanguageSwitcher />
+          </div>
+
+          <button
+            type="button"
+            onClick={toggleMenu}
+            aria-label={isOpen ? "Close menu" : "Open menu"}
+            aria-expanded={isOpen}
+            className="flex md:hidden items-center justify-center p-2 rounded-lg text-zinc-300 hover:text-white bg-zinc-900/60 border border-zinc-800 hover:border-zinc-700 transition focus:outline-none"
+          >
+            {isOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+          </button>
+        </div>
       </div>
 
       {/* Mobile Drawer Dropdown */}
       {isOpen && (
-        <div className="md:hidden border-t border-zinc-800/80 bg-zinc-950/95 px-5 py-5 backdrop-blur-xl animate-fade-in">
+        <div className="md:hidden border-t border-zinc-800/80 bg-zinc-950/95 px-5 py-5 backdrop-blur-xl">
           <div className="flex flex-col gap-4">
             <div className="flex items-center justify-between border-b border-zinc-800/60 pb-4">
               <span className="text-xs font-mono uppercase tracking-wider text-zinc-400">
