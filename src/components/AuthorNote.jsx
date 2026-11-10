@@ -1,24 +1,24 @@
-import { author, site } from "../data/content";
+import { useLanguage } from "../context/LanguageContext";
 
 export default function AuthorNote() {
+  const { t } = useLanguage();
+
   return (
-    <section className="border-y border-white/[0.06] bg-zinc-900/30">
-      <div className="mx-auto grid max-w-6xl gap-10 px-5 py-16 md:grid-cols-2 md:gap-16 md:py-24">
-        <div>
-          <h2 className="font-serif text-3xl font-semibold tracking-tight text-zinc-100 sm:text-4xl">{author.title}</h2>
-          <blockquote className="mt-6 font-serif text-2xl leading-snug text-amber-200/90">
-            {author.pullQuote}
-          </blockquote>
+    <section className="border-t border-white/[0.06] px-5 py-20">
+      <div className="mx-auto max-w-3xl space-y-8 text-start">
+        <h2 className="text-2xl font-bold tracking-tight text-white sm:text-3xl">
+          {t.author.title}
+        </h2>
+
+        <div className="space-y-4 text-sm leading-relaxed text-zinc-400 sm:text-base">
+          {t.author.paragraphs.map((para, i) => (
+            <p key={i}>{para}</p>
+          ))}
         </div>
 
-        <div>
-          <div className="space-y-5 font-serif text-lg leading-8 text-zinc-300">
-            {author.paragraphs.map((p) => (
-              <p key={p}>{p}</p>
-            ))}
-          </div>
-          <p className="mt-8 font-serif text-zinc-100">{site.author}</p>
-        </div>
+        <blockquote className="border-s-2 border-amber-400/80 ps-4 font-mono text-sm italic text-amber-200/90">
+          "{t.author.pullQuote}"
+        </blockquote>
       </div>
     </section>
   );

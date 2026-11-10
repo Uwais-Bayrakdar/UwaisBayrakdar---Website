@@ -1,39 +1,33 @@
-import { chapters } from "../data/content";
+import { useLanguage } from "../context/LanguageContext";
 
 export default function ChaptersList() {
-  return (
-    <section className="mx-auto max-w-7xl px-5 py-16 md:py-24">
-      {/* Header */}
-      <div className="mb-12 text-center">
-        <h2 className="font-serif text-3xl font-semibold tracking-tight text-zinc-100 sm:text-4xl">
-          Table of Contents
-        </h2>
-        <p className="mx-auto mt-3 max-w-xl text-sm leading-relaxed text-zinc-400 sm:text-base">
-          The rule is simple: instead of top to bottom read, you go to the table of contents, and read the chapter you find it's curious.
-        </p>
-      </div>
+  const { t } = useLanguage();
 
-      {/* 
-        Responsive layout:
-        - Mobile: 1 column
-        - Small screens: 2 columns
-        - Tablet/Laptop: 5 columns
-        - Desktop: 10 columns (exactly 4 rows of 10)
-      */}
-      <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-5 xl:grid-cols-10 gap-2 sm:gap-2.5">
-        {chapters.map((title, i) => (
-          <div
-            key={title}
-            className="flex flex-col justify-start items-start rounded-lg border border-white/[0.08] bg-zinc-900/60 p-3.5 transition hover:border-zinc-600"
-          >
-            <span className="font-mono text-[11px] leading-none text-zinc-500 mb-2.5">
-              {String(i + 1).padStart(2, "0")}
-            </span>
-            <span className="font-serif text-xs font-medium leading-snug text-zinc-200">
-              {title}
-            </span>
-          </div>
-        ))}
+  return (
+    <section className="border-t border-white/[0.06] bg-zinc-950/40 px-5 py-20">
+      <div className="mx-auto max-w-4xl space-y-10">
+        <div className="text-center">
+          <h2 className="text-2xl font-bold text-white sm:text-3xl">
+            {t.site.title}
+          </h2>
+          <p className="mt-2 text-xs text-zinc-500 font-mono">
+            {t.chaptersSection.subtitle}
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-2 text-start">
+          {t.chapters.map((title, idx) => (
+            <div
+              key={idx}
+              className="flex items-center gap-3 rounded-lg border border-zinc-800/80 bg-zinc-900/30 px-3.5 py-2.5 text-xs text-zinc-300"
+            >
+              <span className="font-mono text-zinc-600 shrink-0">
+                {String(idx + 1).padStart(2, "0")}
+              </span>
+              <span className="truncate">{title}</span>
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );

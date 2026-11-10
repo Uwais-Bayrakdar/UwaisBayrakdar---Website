@@ -1,12 +1,16 @@
 import React, { useState } from "react";
 import { Check, AlertCircle, ArrowRight, Loader2 } from "lucide-react";
+import { useLanguage } from "../context/LanguageContext";
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export default function EmailForm() {
+  const { t, lang } = useLanguage();
   const [email, setEmail] = useState("");
-  const [status, setStatus] = useState("idle"); // idle | loading | success | error
+  const [status, setStatus] = useState("idle");
   const [errorMessage, setErrorMessage] = useState("");
+  const pdfFileName = t.assets?.previewPdf || "The_Book_of_Shorts_Preview.pdf";
+  const interactiveLink = t.assets?.previewLink || "https://dub.sh/tbospreview";
 
   async function onSubmit(e) {
     e.preventDefault();
@@ -15,7 +19,7 @@ export default function EmailForm() {
     const trimmed = email.trim();
     if (!EMAIL_RE.test(trimmed)) {
       setStatus("error");
-      setErrorMessage("Please enter a valid email address.");
+      setErrorMessage(t.form.invalid);
       return;
     }
 
@@ -31,7 +35,8 @@ export default function EmailForm() {
         },
         body: JSON.stringify({
           email: trimmed,
-          _subject: "New Preview Access: The Book of Shorts",
+          language: lang,
+          _subject: `New Preview Access: ${t.site.title} (${lang.toUpperCase()})`,
         }),
       });
 
@@ -41,11 +46,11 @@ export default function EmailForm() {
         setStatus("success");
       } else {
         setStatus("error");
-        setErrorMessage(data?.error || "Submission failed. Please try again.");
+        setErrorMessage(data?.error || t.form.invalid);
       }
     } catch (err) {
       setStatus("error");
-      setErrorMessage("Network error. Please check your connection.");
+      setErrorMessage(t.form.networkError);
     }
   }
 
@@ -54,28 +59,28 @@ export default function EmailForm() {
       <div className="w-full max-w-md space-y-4 rounded-xl border border-zinc-800 bg-zinc-900/60 p-5 text-center">
         <div className="flex items-center justify-center gap-2 text-emerald-400 text-sm font-medium">
           <Check className="w-5 h-5 shrink-0" />
-          <span>You're in! Access your preview below:</span>
+          <span>{t.form.successTitle}</span>
         </div>
 
         <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-1">
           {/* Primary: Dub tracking link to Heyzine */}
           <a
-            href="https://dub.sh/tbospreview"
+            href={interactiveLink}
             target="_blank"
             rel="noopener noreferrer"
             className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-zinc-100 text-zinc-950 text-sm font-semibold hover:bg-zinc-200 transition-colors"
           >
-            Read Interactive Preview
-            <ArrowRight className="w-4 h-4" />
+            {t.form.readPreview}
+            <ArrowRight className="w-4 h-4 rtl:rotate-180" />
           </a>
 
           {/* Secondary: Raw PDF download */}
           <a
-            href={`${import.meta.env.BASE_URL}The_Book_of_Shorts_Preview.pdf`}
-            download="The_Book_of_Shorts_Preview.pdf"
+            href={`${import.meta.env.BASE_URL}${pdfFileName}`}
+            download={pdfFileName}
             className="w-full sm:w-auto text-xs text-zinc-400 hover:text-zinc-200 underline underline-offset-4 py-2"
           >
-            Or download PDF
+            {t.form.downloadPdf}
           </a>
         </div>
       </div>
@@ -92,7 +97,7 @@ export default function EmailForm() {
             setEmail(e.target.value);
             if (status === "error") setStatus("idle");
           }}
-          placeholder="Enter your email"
+          placeholder={t.form.placeholder}
           className="flex-1 px-4 py-2.5 rounded-xl bg-zinc-900 border border-zinc-800 text-zinc-100 placeholder:text-zinc-500 focus:outline-none focus:border-zinc-500 text-sm"
         />
         <button
@@ -101,17 +106,19 @@ export default function EmailForm() {
           className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-zinc-100 text-zinc-950 font-medium hover:bg-zinc-200 transition-colors text-sm disabled:opacity-50"
         >
           {status === "loading" ? (
-            <Loader2 className="w-4 h-4 animate-spin" />
+            <>
+              <Loader2 className="w-4 h-4 animate-spin" />
+              <span>{t.form.sending}</span>
+            </>
           ) : (
             <>
-              Get Preview
-              <ArrowRight className="w-4 h-4" />
+              <span>{t.form.button}</span>
+              <ArrowRight className="w-4 h-4 rtl:rotate-180" />
             </>
           )}
         </button>
       </form>
 
-      {/* Visible Error Message */}
       {status === "error" && (
         <div className="mt-2.5 flex items-center gap-2 text-rose-400 text-xs">
           <AlertCircle className="w-4 h-4 shrink-0" />
