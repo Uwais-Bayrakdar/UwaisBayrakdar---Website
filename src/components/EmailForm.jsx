@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Check, AlertCircle, ArrowRight, Loader2 } from "lucide-react";
 import { useLanguage } from "../context/LanguageContext";
 
@@ -10,7 +10,19 @@ export default function EmailForm() {
   const [status, setStatus] = useState("idle");
   const [errorMessage, setErrorMessage] = useState("");
   const pdfFileName = t.assets?.previewPdf || "The_Book_of_Shorts_Preview.pdf";
-  const interactiveLink = t.assets?.previewLink || "https://dub.sh/tbospreview";
+  const interactiveLink = t.assets?.previewLink || "https://uwais-bayrakdar.github.io/tbos_preview_page/";
+  const eoContainerRef = useRef(null);
+
+  useEffect(() => {
+    const container = eoContainerRef.current;
+    if (!container || container.querySelector("script")) return;
+
+    const script = document.createElement("script");
+    script.src = "https://eocampaign1.com/form/885c6f00-dd30-11f1-9205-477e378ccfce.js";
+    script.async = true;
+    script.setAttribute("data-form", "885c6f00-dd30-11f1-9205-477e378ccfce");
+    container.appendChild(script);
+  }, []);
 
   async function onSubmit(e) {
     e.preventDefault();
@@ -27,27 +39,38 @@ export default function EmailForm() {
     setErrorMessage("");
 
     try {
-      const res = await fetch("https://formspree.io/f/mwlvppyp", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-        body: JSON.stringify({
-          email: trimmed,
-          language: lang,
-          _subject: `New Preview Access: ${t.site.title} (${lang.toUpperCase()})`,
-        }),
-      });
-
-      const data = await res.json().catch(() => null);
-
-      if (res.ok) {
-        setStatus("success");
-      } else {
+      const domain = trimmed.split("@")[1];
+      const dnsRes = await fetch(`https://dns.google/resolve?name=${encodeURIComponent(domain)}&type=MX`);
+      const dnsData = await dnsRes.json();
+      if (!dnsData.Answer || dnsData.Answer.length === 0) {
         setStatus("error");
-        setErrorMessage(data?.error || t.form.invalid);
+        setErrorMessage(t.form.invalid);
+        return;
       }
+
+      const container = eoContainerRef.current;
+      const eoInput = container?.querySelector('input[type="email"]');
+      const eoButton = container?.querySelector('button[type="submit"], input[type="submit"]');
+
+      if (!eoInput || !eoButton) {
+        throw new Error("Form script not loaded yet");
+      }
+
+      // Sync value so EmailOctopus's component state registers it
+      const nativeSetter = Object.getOwnPropertyDescriptor(
+        window.HTMLInputElement.prototype,
+        "value"
+      ).set;
+      nativeSetter.call(eoInput, trimmed);
+      eoInput.dispatchEvent(new Event("input", { bubbles: true }));
+      eoInput.dispatchEvent(new Event("change", { bubbles: true }));
+
+      eoButton.click();
+
+      // Wait briefly for EmailOctopus's script to complete its POST
+      await new Promise((resolve) => setTimeout(resolve, 1200));
+
+      setStatus("success");
     } catch (err) {
       setStatus("error");
       setErrorMessage(t.form.networkError);
@@ -63,7 +86,7 @@ export default function EmailForm() {
         </div>
 
         <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-1">
-          {/* Primary: Dub tracking link to Heyzine */}
+          {/* Primary: Github tracking link to Heyzine */}
           <a
             href={interactiveLink}
             target="_blank"
@@ -125,6 +148,9 @@ export default function EmailForm() {
           <span>{errorMessage}</span>
         </div>
       )}
+
+      {/* Hidden official EmailOctopus embed container */}
+      <div ref={eoContainerRef} style={{ display: "none" }} aria-hidden="true" />
     </div>
   );
 }
